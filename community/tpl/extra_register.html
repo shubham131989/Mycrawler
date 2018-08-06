@@ -1,0 +1,188 @@
+<div class="register-container full-height sm-p-t-30">
+    <div class="container-sm-height full-height m-t-30">
+        <div class="row row-sm-height m-t-20">
+            <div class="col-sm-12 col-sm-height col-middle">
+                <img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo.png" ui-jq="unveil" data-src-retina="assets/img/logo_2x.png" width="256" height="46">
+                <h3>Commu Pro makes it easy to manage your events</h3>
+                <p>
+                    <small>
+        Create your Commu Pro account (Fields marked with * are mandatory)
+              </small>
+                </p>
+                <form id="form-register" name="registerForm" method="POST" role="form" ng-submit="register()">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.fname.$invalid && !registerForm.fname.$pristine }">
+                                <label>First Name<span class="inline error">*</span></label>
+                                <input type="text" name="fname" placeholder="Rajendra" class="form-control" ng-model="user.fname" required>
+                            </div>
+                            <label class="error" for="fname" ng-show="registerForm.fname.$invalid && !registerForm.fname.$pristine">This field is required.</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.lname.$invalid && !registerForm.lname.$pristine }">
+                                <label>Last Name</label>
+                                <input type="text" name="lname" placeholder="Shah" class="form-control" ng-model="user.lname">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.email.$invalid && !registerForm.email.$pristine }">
+                                <label>Email ID<span class="inline error">*</span></label>
+                                <input type="email" placeholder="Email ID" class="form-control" ng-model="user.emailId" ng-disabled="emailVerified" required>
+                            </div>
+                            <label class="error" for="email" ng-show="registerForm.email.$invalid && !registerForm.email.$pristine">Enter a valid email.</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="button" class="btn btn-primary btn-cons m-t-10" ng-click="sendOtp()" ng-hide="emailVerified" value="Verify">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.pass.$invalid && !registerForm.pass.$pristine }">
+                                <label>Password<span class="inline error">*</span></label>
+                                <input type="password" name="pass" placeholder="Minimum 6 characters" class="form-control" ng-minlength="6" ng-model="user.password" required>
+                            </div>
+                            <label class="error" for="pass" ng-show="registerForm.pass.$invalid && !registerForm.pass.$pristine">This field is required</label>
+                            <label class="error" for="pass" ng-show="registerForm.pass.$error.minlength">Password should have at least 6 characters</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.pass.$invalid && !registerForm.pass.$pristine}">
+                                <label>Confirm Password<span class="inline error">*</span></label>
+                                <input type="password" name="cnfpass" placeholder="Minimum 6 characters" class="form-control" ng-minlength="6" ng-model="user.cpassword" required>
+                            </div>
+                            <label class="error" for="cnfpass" ng-show="registerForm.cnfpass.$invalid && !registerForm.cnfpass.$pristine">This field is required</label>
+                            <label class="error" for="cnfpass" ng-show="user.password != user.cpassword && !registerForm.cnfpass.$pristine">Entered passwords do not match</label>
+                            <label class="error" for="cnfpass" ng-show="registerForm.cnfpass.$error.minlength">Password should have at least 6 characters</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Contact No.<span class="inline error">*</span></label>
+                                <input type="number" name="number" placeholder="9123456789" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" ng-model="user.contactNo" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Business Details</h3>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Business Name<span class="inline error">*</span></label>
+                                <input type="text" name="companyName" class="form-control" ng-model="company.companyName" placeholder="ASCENT company" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6"> 
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Contact No.</label>
+                                <input type="text" name="contactNo" class="form-control" ng-model="company.contactNo" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="9123456789">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" >
+                                <label>Website</label>
+                                <input type="text" name="website" class="form-control" ng-model="company.website" placeholder="www.ascentsmartwaves.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6"> 
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Email ID</label>
+                                <input type="email" class="form-control" ng-model="company.emailId" placeholder="e.g. info@ascentsmartwaves.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Description</label>
+                                <textarea class="form-control" ng-model="company.description" placeholder="Write something about your business"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>PAN</label>
+                                <input type="text" name="pan" class="form-control" ng-model="company.pan">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" >
+                                <label>GSTIN</label>
+                                <input type="text" name="gstin" class="form-control" ng-model="company.gstin">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                	    <div class="col-sm-12">
+                	        <h4>Address Info</h4>
+                	    </div>
+                	</div>
+                	<div class="row">
+                	    <div class="col-sm-12 col-md-6">
+                	        <div pg-form-group class="form-group form-group-default">
+                	            <label>Address</label>
+                	            <input type="text" name="line1" class="form-control" ng-model="address.line1" gm-places-autocomplete>
+                	        </div>
+                	    </div>
+                	    <div class="col-sm-12 col-md-6">
+                	        <div pg-form-group class="form-group form-group-default">
+                	            <label>Additional Info/Landmark</label>
+                	            <input type="text" name="line2" class="form-control" ng-model="address.line2" placeholder="additional details/landmark">
+                	        </div>
+                	    </div>
+                	</div>
+                    <div class="row m-t-10">
+                        <div class="col-md-6">
+                            <div class="checkbox check-primary">
+                                <input type="checkbox" id="agree" required>
+                                <label for="agree">I agree to the <a ui-sref="app.terms" class="text-info small">Commu Pro Terms</a> and <a ui-sref="app.privacy" class="text-info small">Privacy</a></label>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary btn-cons" type="submit" value="Create a new account"  ng-disabled="!emailVerified || registerForm.$invalid" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="modal fade stick-up" id="verifyModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="verifyModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <h4 class="p-b-5"><span class="semi-bold">Verify Email Address</span></h4>
+                    </div>
+                    <form role="form" ng-submit="validate()">
+                        <div class="modal-body">
+                            <div class="row">
+                                <small>OTP has been sent to {{user.emailId}}. Please check the spam folder in case you haven't received the mail.</small>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Enter OTP</label>
+                                        <input type="text" class="form-control" placeholder="Enter OTP" ng-model="otp" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <input type="submit" class="btn btn-primary btn-cons" value="Verify">
+                            </div>
+                            <div class="row">
+                                <a ng-click="resendOtp()">Resend OTP</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>

@@ -1,0 +1,93 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.events">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.events" class="active">Events</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <legend>List of Events</legend>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary btn-cons full-width" ui-sref="app.addEvent"><i class="fa fa-plus" aria-hidden="true"></i> Add Event</button>
+            </div>
+        </div>
+        <div class="panel-body"><div class="col-md-4 col-md-offset-4">
+        <input type="submit" name="Export" ng-click="exportData()" class="btn btn-success" value="export to excel"/>
+    </div>
+            <div class="table-responsive">
+                <table class="table table-hover demo-table-dynamic">
+                    <thead>
+                        <tr>
+                            <th style="width:8%;"></th>
+                            <th style="width:8%;"></th>
+                            <th style="width:18%;"><input type="text" class="form-control" ng-model="searchEvent" placeholder="name"></th>
+                            <th style="width:18%;"><input type="text" class="form-control" ng-model="searchVenue" placeholder="venue"></th>
+                            <th style="width:20%;">
+                                <div id="datepicker-component" class="input-group date col-sm-12" ui-options="{format:'dd/mm/yyyy'}" ui-jq="datepicker">
+                                    <input type="text" ng-model="searchStartDate" class="form-control" ui-options="{format:'dd/mm/yyyy'}" placeholder="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </th>
+                            <th style="width:20%;">
+                                <div id="datepicker-component" class="input-group date col-sm-12" ui-options="{format:'dd/mm/yyyy'}" ui-jq="datepicker">
+                                    <input type="text" ng-model="searchEndDate" class="form-control" ui-options="{format:'dd/mm/yyyy'}" placeholder="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </th>
+                            <th style="width:8%;"></th>
+                        </tr>
+                        <tr>
+                            <th style="width:8%;"><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+                            <th style="width:8%;">#</th>
+                            <th style="width:18%;">Event Name</th>
+                            <th style="width:18%;">Venue</th>
+                            <th style="width:20%;">Start Date</th>
+                            <th style="width:20%;">End Date</th>
+                            <th style="width:8%;">Likes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in events | filter:{eventName: searchEvent} | filter:{startDate: searchStartDate} | filter:{startDate: searchEndDate} | filter:{venueName: searchVenue}">
+                            <td class="v-align-middle">
+                                <i class="fa fa-trash-o" confirmed-click="deleteEvent($index, item.eventId)" ng-confirm-click="Are you sure you want to delete the event?" aria-hidden="true"></i>
+                            </td>
+                            <td class="v-align-middle">
+                                {{$index+1}}
+                            </td>
+                            <td class="v-align-middle">
+                                <a ui-sref="app.eventDetails({eventId: item.eventId})">{{item.eventName}}</a>
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.venueName}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.startDate + " " + item.startTime}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.endDate + " " + item.endTime}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.likes}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+			</div>
+        </div>
+    </div>
+</div>
+<!-- END CONTAINER FLUID -->

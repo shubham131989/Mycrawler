@@ -1,0 +1,41 @@
+<!-- START PAGE-CONTAINER -->
+<div class="register-wrapper ">
+        <!-- START Login Right Container-->
+        <div class="register-container bg-white">
+            <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+                <img class="hidden" src="assets/img/logo.png" alt="logo" data-src="assets/img/logo.png" ui-jq="unveil" data-src-retina="assets/img/logo_2x.png" width="250" height="46">
+                <p class="p-t-35">Sign into account</p>
+                <!-- START Login Form -->
+                <form id="form-login" name="loginForm" class="p-t-15" role="form" ng-submit="login()" novalidate>
+                    <!-- START Form Control-->
+                    <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
+                        <label>Username</label>
+                        <div class="controls">
+                            <input type="text" name="username" placeholder="username" class="form-control" ng-model="emailId" required>
+                        </div>
+                    </div>
+                    <label class="error" for="username" ng-show="loginForm.username.$invalid && !loginForm.username.$pristine">This field is required.</label>
+                    <!-- END Form Control-->
+                    <!-- START Form Control-->
+                    <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
+                        <label>Password</label>
+                        <div class="controls">
+                            <input type="password" class="form-control" name="password" placeholder="password" ng-model="password" required>
+                        </div>
+                    </div>
+                    <label class="error" for="password" ng-show="loginForm.password.$invalid && !loginForm.password.$pristine">This field is required.</label>
+                    <!-- START Form Control-->
+                    <!-- END Form Control-->
+                    <button class="btn btn-primary btn-cons m-t-10" type="submit" ng-disabled="loginForm.$invalid">Sign in</button>
+                </form>
+                <!--END Login Form-->
+                <div class="pull-bottom sm-pull-bottom">
+                </div>
+            </div>
+        </div>
+        <!-- END Login Right Container-->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    
+        
+           

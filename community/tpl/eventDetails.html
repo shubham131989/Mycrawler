@@ -1,0 +1,250 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.events">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.eventDetails" class="active">Event Details</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <h2>{{event.eventName}}</h2>
+    <ul class = "nav nav-tabs nav-tabs-simple bg-white">
+        <li class = "active">
+            <a data-toggle="tab" pg-tab href="#tabEventDetails" aria-expanded="true">Event Details</a>
+        </li>
+        <li>
+            <a data-toggle="tab" pg-tab href="#tabEventGallery" aria-expanded="false">Event Gallery</a>
+        </li>
+        <li>
+            <a data-toggle="tab" pg-tab href="#tabEventRsvp" aria-expanded="false">Event RSVP</a>
+        </li>
+        <li>
+            <a data-toggle="tab" pg-tab href="#tabEventFeedback" aria-expanded="false">Event Feedback</a>
+        </li>
+    </ul>
+    <div class="tab-content bg-white">
+        <div class="tab-pane slide-left active" id="tabEventDetails">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="POST" role="form" name="eventDetails" ng-submit="updateEvent()" no-validate>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label>Event Name<span class="inline error">*</span></label>
+                                    <input type="text" ng-model="event.eventName" class="form-control" placeholder="Wedding ceremony" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label>Venue<span class="inline error">*</span></label>
+                                    <ui-select ng-model="venue.selected" theme="bootstrap">
+                                        <ui-select-match placeholder="Select venue">{{$select.selected.venueName}}</ui-select-match>
+                                        <ui-select-choices repeat="item in venues | filter: $select.search">
+                                            <div ng-bind-html="trustAsHtml((item.venueName | highlight: $select.search))"></div>
+                                            <small>Address: {{item.line1}}</small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input type="text" ng-model="event.description" class="form-control" placeholder="Alice and John's Wedding">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                        <input type="text" ng-model="event.startDate" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="Start Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Start Time</label>
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input type="text" class="form-control" ng-model="event.startTime" timepicker>
+                                        <span class="input-group-addon"><i class="pg-clock"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                        <input type="text" ng-model="event.endDate" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="End Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>End Time</label>
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input type="text" class="form-control" ng-model="event.endTime" timepicker>
+                                        <span class="input-group-addon"><i class="pg-clock"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label>RSVP Start Date</label>
+                                    <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                        <input type="text" ng-model="event.rsvpStartDate" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="RSVP Start Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>RSVP Start Time</label>
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input type="text" class="form-control" ng-model="event.rsvpStartTime" timepicker>
+                                        <span class="input-group-addon"><i class="pg-clock"></i></span>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <label>RSVP End Date</label>
+                                    <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                        <input type="text" ng-model="event.rsvpEndDate" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="RSVP End Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>RSVP End Time</label>
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input type="text" class="form-control" ng-model="event.rsvpEndTime" timepicker>
+                                        <span class="input-group-addon"><i class="pg-clock"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row m-t-20">
+                            <div class="pull-right">
+                                <input type="submit" class="btn btn-primary btn-cons" ng-disabled="addEvent.$invalid || !venue.selected" value="Update Event">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- Panel End -->
+        </div><!-- Tab Pane End -->
+        <div class="tab-pane slide-left" id="tabEventGallery">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Drag n' drop uploader
+                    </div>
+                    <div class="tools">
+                        <a class="collapse" href="javascript:;"></a>
+                        <a class="config" data-toggle="modal" href="#grid-config"></a>
+                        <a class="reload" href="javascript:;"></a>
+                        <a class="remove" href="javascript:;"></a>
+                    </div>
+                </div>
+                <div class="panel-body no-scroll no-padding">
+                    <form class="dropzone" method="post" enctype="multipart/form-data" dropzone="dropzone" dropzone-config="dzConfig" dropzone-callbacks="dzCallbacks" ng-dropzone>
+                        <input name="file" type="file" multiple />
+                    </form><br>
+                </div>
+            </div><!-- Panel End -->
+        </div><!-- Tab Pane End -->
+        <div class="tab-pane slide-left" id="tabEventRsvp">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover demo-table-dynamic">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%;"></th>
+                                    <th style="width:30%;"><input type="text" class = "form-control" ng-model="searchSubscriberName" placeholder="Member Name"></th>
+                                    <th style="width:25%;"><input type="text" class = "form-control" ng-model="searchContactNo" placeholder="Contact Number"></th>
+                                    <th style="width:5%;"></th>
+                                </tr>
+                                <tr>
+                                    <th style="width:10%;">#</th>
+                                    <th style="width:30%;">Member Name</th>
+                                    <th style="width:25%;">Contact Number</th>
+                                    <th style="width:5%;">RSVP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in eventRsvps | filter:{subscriberName: searchSubscriberName}  | filter:{contactNo: searchContactNo} ">
+                                    <td class="v-align-middle">
+                                        {{$index+1}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        {{item.subscriberName}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        {{item.contactNo}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <a><span ng-show ="item.rsvp == 1" class="pull-right glyphicon glyphicon-ok" style ="font-size:18px"></span><span ng-show = "item.rsvp == 0" class="pull-right glyphicon glyphicon-remove" style ="font-size:18px"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+        			</div>
+                </div>
+            </div><!-- Panel End -->
+        </div><!-- Tab Pane End -->
+        <div class="tab-pane slide-left" id="tabEventFeedback">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover demo-table-dynamic">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%;"></th>
+                                    <th style="width:20%;"><input type="text" class="form-control" ng-model="searchEvent" placeholder="Event Name"></th>
+                                    <th style="width:20%;"><input type="text" class = "form-control" ng-model="searchSubscriberName" placeholder="Member Name"></th>
+                                    <th style="width:45%;"><input type="text" class = "form-control" ng-model="searchFeedback" placeholder="Feedback"></th>
+                                    <th style="width:5%;"></th>
+                                </tr>
+                                <tr>
+                                    <th style="width:10%;">#</th>
+                                    <th style="width:20%;">Event Name</th>
+                                    <th style="width:20%;">Member Name</th>
+                                    <th style="width:45%;">Feedback</th>
+                                    <th style="width:5%;">Approved</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in feedbacks | filter:{eventName: searchEvent}  | filter:{subscriberName: searchSubscriberName} | filter:{feedback: searchFeedback} ">
+                                    <td class="v-align-middle">
+                                        {{$index+1}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        {{item.eventName}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        {{item.subscriberName}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        {{item.feedback}}
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <a ng-click = "approveFeedback($index, item)"><span ng-show ="item.isApproved == 1" class="pull-right glyphicon glyphicon-ok" style ="font-size:18px"></span><span ng-show = "item.isApproved == 0" class="pull-right glyphicon glyphicon-remove" style ="font-size:18px"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+        			</div>
+                </div>
+            </div><!-- Panel End -->
+        </div><!-- Tab Pane End -->
+    </div><!-- Tab Content End -->
+</div>
+<!-- END CONTAINER FLUID -->

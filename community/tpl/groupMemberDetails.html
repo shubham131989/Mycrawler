@@ -1,0 +1,180 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.events">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.groupMembers">Group Members</a>
+                </li>
+                <li>
+                    <a ui-sref="app.groupMemberDetails" class="active">Group Member Details</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <legend>Group Member Details</legend>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form method="POST" role="form" name="groupMemberDetails" ng-submit="updateGroupMember()" no-validate>
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Member Name<span class="inline error">*</span></label>
+                            <input type="text" ng-model="subscriber.subscriberName" class="form-control" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Parent Name</label>
+                            <ui-select ng-model="parentName.selected" theme="bootstrap">
+                                <ui-select-match allow-clear="true" placeholder="Select Parent">{{$select.selected.subscriberName}}</ui-select-match>
+                                <ui-select-choices repeat="item in subscribers | filter: $select.search">
+                                    <div ng-bind-html="trustAsHtml((item.subscriberName | highlight: $select.search))"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Membership ID</label>
+                            <input type="text" ng-model="subscriber.membershipId" class="form-control" placeholder="M0001">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Contact Number<span class="inline error">*</span></label>
+                            <input type="text" ng-model="subscriber.contactNo" class="form-control" placeholder="1234567890" onkeypress="return event.charCode >=48 && event.charCode<=57" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Email Id</label>
+                            <input type="text" ng-model="subscriber.emailId" class="form-control" placeholder="john.doe@gmail.com">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Date Of Birth</label>
+                            <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                <input type="text" ng-model="subscriber.dob" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="11/11/1980"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Gender<span class="inline error">*</span></label>
+                            <input type="radio" name="gender" value="1" ng-model="subscriber.gender" required> Male
+                            <input type="radio" name="gender" value="2" ng-model="subscriber.gender" required> Female
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Photo</label>
+                            <input type="file" demo-file-model="file"  class="form-control" id ="file">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Education</label>
+                            <ui-select ng-model="education.selected" theme="bootstrap">
+                                <ui-select-match allow-clear="true" placeholder="Select Education">{{$select.selected.education}}</ui-select-match>
+                                <ui-select-choices repeat="item in educations | filter: $select.search">
+                                    <div ng-bind-html="trustAsHtml((item.education | highlight: $select.search))"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-8">
+                        <div class="form-group">
+                            <label>Degree</label>
+                            <ui-select ng-model="degree.selected" theme="bootstrap">
+                                <ui-select-match allow-clear="true" placeholder="Select Degree">{{$select.selected.degree}}</ui-select-match>
+                                <ui-select-choices repeat="item in degrees | filter: $select.search">
+                                    <div ng-bind-html="trustAsHtml((item.degree | highlight: $select.search))"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Marital Status</label>
+                            <ui-select ng-model="maritalStatus.selected" theme="bootstrap">
+                                <ui-select-match allow-clear="true" placeholder="Enter Marital Status">{{$select.selected.maritalStatus}}</ui-select-match>
+                                <ui-select-choices repeat="item in maritalStatuses | filter: $select.search">
+                                    <div ng-bind-html="trustAsHtml((item.maritalStatus | highlight: $select.search))"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div ng-show="maritalStatus.selected.maritalStatusId != 1" class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Date Of Marriage</label>
+                            <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                <input type="text" ng-model="subscriber.dom" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="11/11/2011"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="maritalStatus.selected.maritalStatusId != 1" class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Spouse Name</label>
+                            <ui-select ng-model="spouseName.selected" theme="bootstrap">
+                                <ui-select-match allow-clear="true" placeholder="Select Spouse">{{$select.selected.subscriberName}}</ui-select-match>
+                                <ui-select-choices repeat="item in subscribers | filter: $select.search">
+                                    <div ng-bind-html="trustAsHtml((item.subscriberName | highlight: $select.search))"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                                <label> Is Alive? <input type="checkbox" ng-model="subscriber.isAlive" ng-true-value='1' ng-false-value='0' ></label>
+                        </div>
+                    </div>
+                    <div ng-hide="subscriber.isAlive" class="col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label>Date Of Demise</label>
+                            <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                <input type="text" ng-model="subscriber.dod" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="11/11/2017"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row m-t-20">
+                    <div class="pull-right">
+                        <input type="submit" class="btn btn-primary btn-cons" ng-disabled="updateGroupMember.$invalid" value="Update Member Details">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END CONTAINER FLUID -->

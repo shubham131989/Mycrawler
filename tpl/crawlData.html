@@ -1,0 +1,136 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.crawlData">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.crawlData" class="active">Crawlers</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <legend>Web Crawler {{crawlers.Project}}</legend>
+            </div>      
+        </div>
+        <div>
+            <form name="inputForm" style="margin-left: 8px" role="form" ng-submit="getData()">
+                <div  class="form-row align-items-center">
+                    <div class="col-sm-3 my-1">
+                        <label class="sr-only" for="inlineFormInputName">City</label>
+                        <input type="text"  class="form-control" ng-model="city" id="inlineFormInputName" placeholder="City" required>
+                    </div>
+                    <div class="col-sm-3 my-1">
+                        <label class="sr-only" for="inlineFormInputGroupUsername">Keyword</label>
+                        <div class="input-group">  
+                                                                   
+                            <input type="text" class="form-control" ng-model="keyword"  id="inlineFormInputGroupUsername" placeholder="Keyword" ng-trim="false" ng-change="keyword = keyword.split(' ').join('-')" required>
+                        </div>
+                    </div>
+                    <div  class="col-sm-3" >
+                        <select  class="form-control" ng-model="crawlers" ng-options="x.Project for x in selectCrawler" required>
+                            <option value="">Select an option</option>
+                        </select>  
+                    </div>                           
+                    <div class="col-auto my-1">
+                        <input type="submit" class="btn btn-primary" value="Submit" >
+                    </div>
+                </div>
+            </form>
+            <div align="right">
+                    <button type="button" ng-click="exportData()" class="btn btn-success" style="margin-right:20px">Export Data</button>
+            </div>
+        </div>
+        
+
+
+        <div ng-switch="crawlers.Project" class="panel-body">
+            <div ng-switch-when="Justdial"  class="table-responsive">
+                <form class="form-inline">
+                    <input class="form-control" placeholder="Search by name" ng-model="search.Name" />
+                    <input class="form-control" placeholder="Search by area" ng-model="search.Area" />
+                    <input class="form-control" placeholder="Search by category" ng-model="search.Category"/>
+                </form> 
+                <table  id="table1"  class="table table-hover demo-table-dynamic">
+                    <thead>
+                        <tr>
+                            <th>Sr.No.</th>     
+                            <th >Name</th>
+                            <th >Conctact No.</th>
+                            <th >WhatsApp No.</th>
+                            <th >Latitude</th>
+                            <th >Longitude</th>
+                            <th >Area</th>
+                            <th >category</th>
+                            <th >Total Reviews</th>
+                            <th >Rating</th>
+                            <th>Timings</th>
+                    </thead>
+                    <tbody>
+                        <tr  ng-repeat="x in data | filter:search">
+                            <td>{{$index +1}}</td>
+                            <td>{{ x.Name }}</td>   
+                            <td>{{ x.Contact_No }}</td>
+                            <td>{{ x.Whatsapp_number  }}</td>
+                            <td>{{ x.Latitude }}</td>
+                            <td>{{ x.Longitude }}</td>
+                            <td>{{ x.Area }}</td>
+                            <td>{{ x.Category }}</td>
+                            <td>{{ x.Total_reviews }}</td>
+                            <td>{{ x.Rating }}</td>
+                            <td>{{ x.Timings }}</td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div ng-switch-when="Indiamart" class="table-responsive">
+                    <form class="form-inline">        
+                        <input class="form-control" placeholder="Search by name" ng-model="search.Name"/>          
+                        <input class="form-control" placeholder="Search by location" ng-model="search.Location"/>               
+                    </form>
+                <table  id="table1" class="table table-hover demo-table-dynamic">
+                    <thead>
+                        <tr>
+                            <th>Sr.No.</th>     
+                            <th >Name</th>
+                            <th >Phone.No.</th>
+                            <th >Location</th>
+                            <th >Urls</th>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <tr  ng-repeat="x in test | filter:search">
+                            <td>{{$index +1}}</td>
+                            <td>{{ x.Name }}</td>   
+                            <td>{{ x.Phone_No }}</td>
+                            <td>{{ x.Location  }}</td>
+                            <td>{{ x.Url }}</td>
+                        </tr>
+                    </tbody>  
+                </table>
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- END CONTAINER FLUID -->
+<div class="form-group">
+    
+</div>

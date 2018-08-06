@@ -1,0 +1,53 @@
+<div class="register-container full-height sm-p-t-30">
+    <div class="container-sm-height full-height m-t-30">
+        <div class="row row-sm-height m-t-20">
+            <div class="col-sm-12 col-sm-height col-middle">
+                <p><h1>Registration Form</h1>
+                    <small>
+        (Fields marked with * are mandatory)
+              </small>
+                </p>
+                <form id="form-register" name="registerForm" method="POST" role="form" ng-submit="register()">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.fname.$invalid && !registerForm.fname.$pristine }">
+                                <label>Name<span class="inline error">*</span></label>
+                                <input type="text" name="fname" placeholder="Enter your name" class="form-control" ng-model="user.fname" required>
+                            </div>
+                            <label class="error" for="fname" ng-show="registerForm.fname.$invalid && !registerForm.fname.$pristine">This field is required.</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.email.$invalid && !registerForm.email.$pristine }">
+                                <label>Email ID<span class="inline error">*</span></label>
+                                <input type="email" placeholder="Email ID" class="form-control" ng-model="user.emailId" ng-disabled="emailVerified" required>
+                            </div>
+                            <label class="error" for="email" ng-show="registerForm.email.$invalid && !registerForm.email.$pristine">Enter a valid email.</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.pass.$invalid && !registerForm.pass.$pristine }">
+                                <label>Password<span class="inline error">*</span></label>
+                                <input type="password" name="pass" placeholder="Minimum 6 characters" class="form-control" ng-minlength="6" ng-model="user.password" required>
+                            </div>
+                            <label class="error" for="pass" ng-show="registerForm.pass.$invalid && !registerForm.pass.$pristine">This field is required</label>
+                            <label class="error" for="pass" ng-show="registerForm.pass.$error.minlength">Password should have at least 6 characters</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.pass.$invalid && !registerForm.pass.$pristine}">
+                                <label>Confirm Password<span class="inline error">*</span></label>
+                                <input type="password" name="cnfpass" placeholder="Minimum 6 characters" class="form-control" ng-minlength="6" ng-model="user.cpassword" required>
+                            </div>
+                            <label class="error" for="cnfpass" ng-show="registerForm.cnfpass.$invalid && !registerForm.cnfpass.$pristine">This field is required</label>
+                            <label class="error" for="cnfpass" ng-show="user.password != user.cpassword && !registerForm.cnfpass.$pristine">Entered passwords do not match</label>
+                            <label class="error" for="cnfpass" ng-show="registerForm.cnfpass.$error.minlength">Password should have at least 6 characters</label>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary btn-cons" type="submit" value="Create a new account"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,219 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.events">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.notifications" class="active">Notifications</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <legend>List of Notifications</legend>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary btn-cons full-width" ng-click="showNotification()"><i class="fa fa-plus" aria-hidden="true"></i> Add notification</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover demo-table-dynamic">
+                    <thead>
+                        <tr>
+                            <th style="width:8%;"></th>
+                            <th style="width:8%;"></th>
+                            <th style="width:20%;"><input type="text" class="form-control" ng-model="searchNotification" placeholder="Notification"></th>
+                            <th style="width:20%;"><input type="text" class="form-control" ng-model="searchDescription" placeholder="Description"></th>
+                            <th style="width:24%;">
+                            <th style="width:20%;">
+                                <div id="datepicker-component" class="input-group date col-sm-12" ui-options="{format:'dd/mm/yyyy'}" ui-jq="datepicker">
+                                    <input type="text" ng-model="searchPushDate" class="form-control" ui-options="{format:'dd/mm/yyyy'}" placeholder="date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="width:8%;"><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+                            <th style="width:8%;">#</th>
+                            <th style="width:20%;">Notification</th>
+                            <th style="width:20%;">Description</th>
+                            <th style="width:24%;">Image</th>
+                            <th style="width:20%;">Push Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in notifications | filter:{notification: searchNotification}  |filter:{description: searchDescription} | filter:{pushDate: searchPushDate} ">
+                            <td class="v-align-middle">
+                                <i class="fa fa-trash-o" confirmed-click="deleteNotification($index, item.notificationId)" ng-confirm-click="Are you sure you want to delete this notification?" aria-hidden="true"></i>
+                            </td>
+                            <td class="v-align-middle">
+                                {{$index+1}}
+                            </td>
+                            <td class="v-align-middle">
+                                <a ng-click="editNotification($index, item)">{{item.notification}}</a>
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.description}}
+                            </td>
+                            <td class="v-align-middle">
+                                <img style="max-height: auto; max-width: 100%; " ng-src="{{item.imageUrl}}">
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.pushDate + " " + item.pushTime}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+			</div>
+        </div>
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="addNotificationModal" tabindex="-1" role="dialog" aria-labelledby="addNotificationModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5">
+                        <span class="semi-bold">Add</span> Notification</h4>
+                    </div>
+                    <form role="form" method="POST" name="addNotificationForm" ng-submit="addNotification()" no-validate>
+                        <div class="modal-body">
+                            <p class="small-text">Add a new notification using this form (Fields marked * are mandatory)</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Notification<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="notification.notification" class="form-control" placeholder="Congratulations!" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Description</label>
+                                        <input type="text" ng-model="notification.description" class="form-control" placeholder="e.g. You have won a car!">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Image</label>
+                                        <input type="file" demo-file-model="file"  class="form-control" id ="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Push Date<span class="inline error">*</span></label>
+                                        <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                            <input type="text" ng-model="notification.pushDate" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="Push Date" required><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Push Time<span class="inline error">*</span></label>
+                                        <div class="input-group bootstrap-timepicker">
+                                            <input id="timepicker" type="text" class="form-control" ng-model="notification.pushTime" placeholder="16:30:00" required timepicker>
+                                            <span class="input-group-addon"><i class="pg-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-cons" value="Submit" ng-disabled="addNotificationForm.$invalid">                        
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="editNotificationModal" tabindex="-1" role="dialog" aria-labelledby="editNotificationModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5">
+                            <span class="semi-bold">Edit</span> Notification</h4>
+                    </div>
+                    <form role="form" name="editNotificationForm" ng-submit="updateNotification()">
+                        <div class="modal-body">
+                            <p class="small-text">Edit a Notification using this form</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Notification<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="notification.notification" class="form-control" placeholder="Congratulations!" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Description</label>
+                                        <input type="text" ng-model="notification.description" class="form-control" placeholder="e.g. You have won a car!">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Image</label>
+                                        <input type="file" demo-file-model="file"  class="form-control" id ="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Push Date</label>
+                                        <div id="datepicker-component" ui-options="{format:'dd/mm/yyyy'}" class="input-group date" ui-jq="datepicker">
+                                            <input type="text" ng-model="notification.pushDate" ui-options="{format:'dd/mm/yyyy'}" class="form-control" placeholder="Push Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Push Time</label>
+                                        <div class="input-group bootstrap-timepicker">
+                                            <input id="timepicker" type="text" class="form-control" ng-model="notification.pushTime" placeholder="16:30:00" timepicker>
+                                            <span class="input-group-addon"><i class="pg-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-cons" value="Submit" ng-disabled="editNotificationForm.$invalid">
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+    </div>
+</div>
+<!-- END CONTAINER FLUID -->
+<style>
+    .dropdown-menu{
+        z-index:1000000 !important;
+    }
+</style>

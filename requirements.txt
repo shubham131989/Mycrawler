@@ -1,0 +1,7 @@
+scrapy-heroku
+scrapy
+scrapyd
+scrapy-mysql-pipeline
+scrapy_proxies
+
+

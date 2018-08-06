@@ -1,0 +1,156 @@
+<!-- START PAGE-CONTAINER -->
+<div class="register-wrapper ">
+    <!-- START Login Right Container-->
+    <div class="register-container bg-white">
+        <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+            <img class="hidden" src="assets/img/logo.png" alt="logo" data-src="assets/img/logo.png" ui-jq="unveil" data-src-retina="assets/img/logo_2x.png" width="250" height="46">
+            <p class="p-t-35">Sign into your Commu Pro account</p>
+            <!-- START Login Form -->
+            <form id="form-login" name="loginForm" class="p-t-15" role="form" ng-submit="login()" novalidate>
+                <!-- START Form Control-->
+                <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
+                    <label>Email ID</label>
+                    <div class="controls">
+                        <input type="text" name="username" placeholder="Registered Email ID" class="form-control" ng-model="emailId" required>
+                    </div>
+                </div>
+                <label class="error" for="username" ng-show="loginForm.username.$invalid && !loginForm.username.$pristine">This field is required.</label>
+                <!-- END Form Control-->
+                <!-- START Form Control-->
+                <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
+                    <label>Password</label>
+                    <div class="controls">
+                        <input type="password" class="form-control" name="password" placeholder="password" ng-model="password" required>
+                    </div>
+                </div>
+                <label class="error" for="password" ng-show="loginForm.password.$invalid && !loginForm.password.$pristine">This field is required.</label>
+                <!-- START Form Control-->
+                <div class="row">
+                    <div class="col-md-12">
+                        Don't have an account yet? <a href="" ng-click="goToRegister()" class="text-info small">Register</a>
+						<br>
+                        <a href="" ng-click="forgotPassword()" class="text-info small">Forgot Password</a>
+                    </div>
+                </div>
+                <!-- END Form Control-->
+                <button class="btn btn-primary btn-cons m-t-10" type="submit" ng-disabled="loginForm.$invalid">Sign in</button>
+            </form>
+            <!--END Login Form-->
+            <div class="pull-bottom sm-pull-bottom">
+            </div>
+        </div>
+    </div>
+    <!-- END Login Right Container-->
+</div>
+<!-- END PAGE CONTAINER -->
+<div class="container-fluid container-fixed-lg">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+      <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="loginModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <h4 class="p-b-5"><span class="semi-bold">Commu Pro Login</span></h4>
+                    </div>
+                    <form name="changePasswordForm" role="form" ng-submit="changePassword()">
+                        <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': changePasswordForm.pass.$invalid && !changePasswordForm.pass.$pristine }">
+                                            <label>Password<span class="inline error">*</span></label>
+                                            <input type="password" name="pass" placeholder="Minimum 6 characters" class="form-control" ng-minlength="6" ng-model="password" required>
+                                        </div>
+                                        <label class="error" for="pass" ng-show="changePasswordForm.pass.$invalid && !changePasswordForm.pass.$pristine">This field is required</label>
+                                        <label class="error" for="pass" ng-show="changePasswordForm.pass.$error.minlength">Password should have at least 6 characters</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': registerForm.pass.$invalid && !registerForm.pass.$pristine}">
+                                            <label>Confirm Password<span class="inline error">*</span></label>
+                                            <input type="password" name="cnfpass" placeholder="Minimum 6 characters" class="form-control" ng-minlength="6" ng-model="cnfpassword" required>
+                                        </div>
+                                        <label class="error" for="cnfpass" ng-show="registerForm.cnfpass.$invalid && !registerForm.cnfpass.$pristine">This field is required</label>
+                                        <label class="error" for="cnfpass" ng-show="password != cnfpassword && !registerForm.cnfpass.$pristine">Entered passwords do not match</label>
+                                        <label class="error" for="cnfpass" ng-show="registerForm.cnfpass.$error.minlength">Password should have at least 6 characters</label>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <input type="submit" class="btn btn-primary btn-cons" value="Change Password">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP -->
+        <!-- MODAL STICK UP -->
+        <div class="modal fade stick-up" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <h4 class="p-b-5"><span class="semi-bold">Forgot Password</span></h4>
+                    </div>
+                    <form role="form" ng-submit="sendOtp()">
+                    <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Email ID</label>
+                                        <input type="email" class="form-control" placeholder="Registered Email ID" ng-model="emailId" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <input type="submit" class="btn btn-primary btn-cons" value="Send OTP">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="verifyModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="verifyModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <h4 class="p-b-5"><span class="semi-bold">Verify Email Address</span></h4>
+                    </div>
+                    <form role="form" ng-submit="validate()">
+                    <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Enter OTP</label>
+                                        <input type="text" class="form-control" placeholder="Enter OTP" ng-model="otp" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <input type="submit" class="btn btn-primary btn-cons" value="Verify">
+                            </div>
+                            <div class="row">
+                                <a ng-click="resendOtp()">Resend OTP</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->        
+    </div>
+    <!-- END PANEL -->
+</div>
+<!-- END CONTAINER FLUID -->

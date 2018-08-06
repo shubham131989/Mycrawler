@@ -1,0 +1,233 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.events">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.venues" class="active">Venues</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <legend>List of Venues</legend>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary btn-cons full-width" ng-click="showVenue()"><i class="fa fa-plus" aria-hidden="true"></i> Add Venue</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover demo-table-dynamic">
+                    <thead>
+                        <tr>
+                            <th style="width:8%;"></th>
+                            <th style="width:8%;"></th>
+                            <th style="width:20%;"><input type="text" class="form-control" ng-model="searchVenue" placeholder="Venue name"></th>
+                            <th style="width:30%;"><input type="text" class="form-control" ng-model="searchAddress" placeholder="Address"></th>
+                            <th style="width:10%;"><input type="text" class="form-control" ng-model="searchZipcode" placeholder="zipcode"></th>
+                            <th style="width:12%;"><input type="text" class="form-control" ng-model="searchCity" placeholder="city"></th>
+                            <th style="width:12%;"><input type="text" class="form-control" ng-model="searchState" placeholder="state"></th>
+                        </tr>
+                        <tr>
+                            <th style="width:8%;"><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+                            <th style="width:8%;">#</th>
+                            <th style="width:20%;">Venue Name</th>
+                            <th style="width:30%;">Address</th>
+                            <th style="width:10%;">Zipcode</th>
+                            <th style="width:12%;">City</th>
+                            <th style="width:12%;">State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in venues | filter:{venueName: searchVenue} | filter:{line1: searchAddress} | filter:{city: searchCity} | filter:{zipcode: searchZipcode} | filter:{state: searchState}">
+                            <td class="v-align-middle">
+                                <i class="fa fa-trash-o" confirmed-click="deleteVenue($index, item.venueId)" ng-confirm-click="Are you sure you want to delete the venue?" aria-hidden="true"></i>
+                            </td>
+                            <td class="v-align-middle">
+                                {{$index+1}}
+                            </td>
+                            <td class="v-align-middle">
+                                <a ng-click="editVenue($index, item)">{{item.venueName}}</a>
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.line1}}
+                                <div><small>{{item.line2}}</small></div>
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.zipcode}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.city}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.state}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+			</div>
+        </div>
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="addVenueModal" tabindex="-1" role="dialog" aria-labelledby="addVenueModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5">
+                        <span class="semi-bold">Add</span> Venue</h4>
+                    </div>
+                    <form role="form" method="POST" name="addVenueForm" ng-submit="addVenue()" no-validate>
+                        <div class="modal-body">
+                            <p class="small-text">Add a new venue using this form (Fields marked * are mandatory)</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Venue Name<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="venue.venueName" class="form-control" placeholder="Jolly Gymkhana" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Contact No.</label>
+                                        <input type="text" ng-model="venue.contactNo" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" placeholder="e.g. 9820850090">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Email ID</label>
+                                        <input type="text" ng-model="venue.emailId" placeholder="info@ascentsmartwaves.com" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Website</label>
+                                        <input type="text" ng-model="venue.website" class="form-control" placeholder="www.ascentsmartwaves.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                        	    <div class="col-sm-12">
+                        	        <h4>Address Info</h4>
+                        	    </div>
+                        	</div>
+                        	<div class="row">
+                        	    <div class="col-sm-12 col-md-6">
+                        	        <div pg-form-group class="form-group form-group-default">
+                        	            <label>Address<span class="inline error">*</span></label>
+                        	            <input type="text" name="line1" class="form-control" ng-model="address.line1" gm-places-autocomplete required>
+                        	        </div>
+                        	    </div>
+                        	    <div class="col-sm-12 col-md-6">
+                        	        <div pg-form-group class="form-group form-group-default">
+                        	            <label>Additional Info/Landmark</label>
+                        	            <input type="text" name="line2" class="form-control" ng-model="address.line2" placeholder="additional details/landmark">
+                        	        </div>
+                        	    </div>
+                        	</div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-cons" value="Submit" ng-disabled="addVenueForm.$invalid">                        
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="editVenueModal" tabindex="-1" role="dialog" aria-labelledby="editVenueModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5">
+                            <span class="semi-bold">Edit</span> Venue</h4>
+                    </div>
+                    <form role="form" name="editVenueForm" ng-submit="updateVenue()">
+                        <div class="modal-body">
+                            <p class="small-text">Edit a venue using this form</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Venue Name<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="venue.venueName" class="form-control" placeholder="Jolly Gymkhana" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Contact No.</label>
+                                        <input type="text" ng-model="venue.contactNo" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" placeholder="e.g. 9820850090">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Email ID</label>
+                                        <input type="text" ng-model="venue.emailId" placeholder="info@ascentsmartwaves.com" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Website</label>
+                                        <input type="text" ng-model="venue.website" class="form-control" placeholder="www.ascentsmartwaves.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                        	    <div class="col-sm-12">
+                        	        <h4>Address Info</h4>
+                        	    </div>
+                        	</div>
+                        	<div class="row">
+                        	    <div class="col-sm-12 col-md-6">
+                        	        <div pg-form-group class="form-group form-group-default">
+                        	            <label>Address<span class="inline error">*</span></label>
+                        	            <input type="text" name="line1" class="form-control" ng-model="address.line1" gm-places-autocomplete required>
+                        	        </div>
+                        	    </div>
+                        	    <div class="col-sm-12 col-md-6">
+                        	        <div pg-form-group class="form-group form-group-default">
+                        	            <label>Additional Info/Landmark</label>
+                        	            <input type="text" name="line2" class="form-control" ng-model="address.line2" placeholder="additional details/landmark">
+                        	        </div>
+                        	    </div>
+                        	</div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-cons" value="Submit" ng-disabled="editVenueForm.$invalid">
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+    </div>
+</div>
+<!-- END CONTAINER FLUID -->
+<style>
+    .pac-container{
+        z-index:10000000;
+    }
+</style>

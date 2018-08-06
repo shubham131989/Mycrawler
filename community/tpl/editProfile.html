@@ -1,0 +1,198 @@
+<div class="register-container full-height sm-p-t-30">
+    <div class="container-sm-height full-height">
+        <div class="row row-sm-height">
+            <div class="col-sm-12 col-sm-height col-middle">
+
+                <form id="form-register" method="POST" role="form" ng-submit="register()">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': register.fname.$invalid && !register.fname.$pristine }">
+                                <label>Name</label>
+                                <input type="text" placeholder="John" class="form-control" ng-model="user.name" required>
+                            </div>
+                            <label class="error" for="fname" ng-show="register.fname.$invalid && !register.fname.$pristine">This field is required.</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': register.email.$invalid && !register.email.$pristine }">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="Email ID" class="form-control" ng-model="user.email" disabled>
+                            </div>
+                            <label class="error" for="email" ng-show="register.email.$invalid && !register.email.$pristine">Enter a valid email.</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': register.pass.$invalid && !register.pass.$pristine }">
+                                <label>Password</label>
+                                <input type="password" name="pass" placeholder="Minimum of 6 Characters" class="form-control" ng-minlength="6" ng-model="user.password" required>
+                            </div>
+                            <label class="error" for="pass" ng-show="register.pass.$invalid && !register.pass.$pristine">This field is required.</label>
+                            <label class="error" for="pass" ng-show="register.pass.$error.minlength">Password should have at least 6 characters</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" ng-class="{ 'has-error': register.pass.$invalid && !register.pass.$pristine}">
+                                <label>Confirm Password</label>
+                                <input type="password" name="pass" placeholder="Minimum of 6 Charactors" class="form-control" ng-minlength="6" ng-model="user.cpassword" required>
+                            </div>
+                            <label class="error" for="pass" ng-show="register.pass.$invalid && !register.pass.$pristine">This field is required.</label>
+                            <label class="error" for="pass" ng-show="register.pass.$error.minlength">Password should have at least 6 characters</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Contact No.</label>
+                                <input type="number" name="number" placeholder="Mobile Number" class="form-control" ng-model="user.contact" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Store Details</h3>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Store Name</label>
+                                <input type="text" name="storeName" class="form-control" ng-model="user.storeName" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>PAN</label>
+                                <input type="text" name="pan" class="form-control" ng-model="user.pan">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" >
+                                <label>GSTIN</label>
+                                <input type="text" name="gstin" class="form-control" ng-model="user.gstin">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Contact No.</label>
+                                <input type="text" name="storeContact" class="form-control" ng-model="user.storeContact" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div pg-form-group class="form-group form-group-default" >
+                                <label>Website</label>
+                                <input type="text" name="website" class="form-control" ng-model="user.website">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Currency</label>
+                                <ui-select ng-model="currency.selected" theme="bootstrap">
+                                    <ui-select-match placeholder="Select or search a currency...">{{$select.selected.currency}}</ui-select-match>
+                                    <ui-select-choices repeat="item in currencies | filter: $select.search">
+                                        <div ng-bind-html="trustAsHtml((item.currency | highlight: $select.search))"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Package</label>
+                                <ui-select ng-model="package.selected" theme="bootstrap" disabled>
+                                    <ui-select-match placeholder="Select or search a package...">{{$select.selected.package}}</ui-select-match>
+                                    <ui-select-choices repeat="item in packages | filter: $select.search">
+                                        <div ng-bind-html="trustAsHtml((item.package | highlight: $select.search))"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Address Line 1</label>
+                                <input type="text" name="line1" class="form-control" ng-model="line1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Address Line 2</label>
+                                <input type="text" name="line2" class="form-control" ng-model="line2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>City</label>
+                                <ui-select ng-model="city.selected" theme="bootstrap">
+                                    <ui-select-match placeholder="Select or search a city...">{{$select.selected.city}}</ui-select-match>
+                                    <ui-select-choices repeat="item in cities | filter: $select.search">
+                                        <div ng-bind-html="trustAsHtml((item.city | highlight: $select.search))"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>State</label>
+                                <ui-select ng-model="state.selected" theme="bootstrap">
+                                    <ui-select-match placeholder="Select or search a state...">{{$select.selected.state}}</ui-select-match>
+                                    <ui-select-choices repeat="item in states | filter: $select.search">
+                                        <div ng-bind-html="trustAsHtml((item.state | highlight: $select.search))"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div pg-form-group class="form-group form-group-default">
+                                <label>Zipcode</label>
+                                <input type="text" name="zip" class="form-control" ng-model="zip" required>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary btn-cons" type="submit" value="Update Profile">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="modal fade stick-up" id="verifyModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="verifyModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <h4 class="p-b-5"><span class="semi-bold">Verify Email Address</span></h4>
+                    </div>
+                    <form role="form" ng-submit="validate()">
+                    <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Enter OTP</label>
+                                        <input type="text" class="form-control" placeholder="Enter OTP" ng-model="otp" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <input id="add-app" type="submit" class="btn btn-primary btn-cons" value="Verify" ng-disabled="!emailVerified">
+                            </div>
+                            <div class="row">
+                                <a ng-click="resendOtp()">Resend OTP</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>

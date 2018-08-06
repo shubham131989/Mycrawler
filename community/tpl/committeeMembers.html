@@ -1,0 +1,238 @@
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
+            <ul class="breadcrumb">
+                <li>
+                    <a ui-sref="app.events">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="app.committeeMembers" class="active">Committee Members</a>
+                </li>
+            </ul>
+            <!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+<!-- END JUMBOTRON -->
+<!--  START CONTAINER FLUID -->
+<div class="container-fluid container-fixed-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <legend>List of Committee Members</legend>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary btn-cons full-width" ng-click="showCommitteeMember()"><i class="fa fa-plus" aria-hidden="true"></i> Add Committee Member</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover demo-table-dynamic">
+                    <thead>
+                        <tr>
+                            <th style="width:5%;"></th>
+                            <th style="width:5%;"></th>
+                            <th style="width:20%;"><input type="text" class="form-control" ng-model="searchCommitteeMember" placeholder="Member Name"></th>
+                            <th style="width:15%;"><input type="text" class="form-control" ng-model="searchPosition" placeholder="Position"></th>
+                            <th style="width:15%;"><input type="text" class="form-control" ng-model="searchContactNo" placeholder="Contact No">
+                            <th style="width:20%;"><input type="text" class="form-control" ng-model="searchEmailId" placeholder="Email Id"></th>
+                            <th style="width:20%;">
+                                
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="width:5%;"><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+                            <th style="width:5%;">#</th>
+                            <th style="width:20%;">Member Name</th>
+                            <th style="width:15%">Position</th>
+                            <th style="width:15%;">Contact No</th>
+                            <th style="width:20%;">Email Id</th>
+                            <th style="width:20%;">Photo</th>
+
+                        </tr>
+                    </thead>
+                    <tbody ui-sortable="sortableOptions" ui-sortable-stop="updateSortSeq()" ng-model="committeeMembers">
+                        <tr ng-repeat="item in committeeMembers | filter:{memberName: searchCommitteeMember} | filter:{position:searchPosition} | filter:{contactNo: searchContactNo} | filter:{emailId: searchEmailId} ">
+                            <td class="v-align-middle">
+                                <i class="fa fa-trash-o" confirmed-click="deleteCommitteeMember($index, item.committeeMemberId)" ng-confirm-click="Are you sure you want to delete this Committee Member?" aria-hidden="true"></i>
+                            </td>
+                            <td class="v-align-middle">
+                                {{$index+1}}
+                            </td>
+                            <td class="v-align-middle">
+                                <a ng-click="editCommitteeMember($index, item)">{{item.memberName}}</a>
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.position}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.contactNo}}
+                            </td>
+                            <td class="v-align-middle">
+                                {{item.emailId}}
+                            </td>
+                            <td class="v-align-middle">
+                                <img ng-src="{{item.imageUrl}}" style="max-width:100%; height:auto">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="addCommitteeMemberModal" tabindex="-1" role="dialog" aria-labelledby="addCommitteeMemberModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5">
+                        <span class="semi-bold">Add</span> Committee Member</h4>
+                    </div>
+                    <form role="form" method="POST" name="addCommitteeMemberForm" ng-submit="addCommitteeMember()" no-validate>
+                        <div class="modal-body">
+                            <p class="small-text">Add a new Committee Member using this form (Fields marked * are mandatory)</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Member Name<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="committeeMember.memberName" class="form-control" placeholder="John Doe" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Contact No<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="committeeMember.contactNo" class="form-control" placeholder="9699128181" onkeypress="return event.charCode >=48 && event.charCode<=57">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>WhatsApp</label>
+                                        <input type="text" ng-model="committeeMember.whatsapp" class="form-control" placeholder="9699128181" onkeypress="return event.charCode >=48 && event.charCode<=57">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Email Id<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="committeeMember.emailId" class="form-control" placeholder="johndoe@gmail.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Photo</label>
+                                        <input type="file" demo-file-model="file"  class="form-control" id ="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Position</label>
+                                        <input type="text" ng-model="committeeMember.position" class="form-control" placeholder="Treasurer" >
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Description</label>
+                                        <input type="text" ng-model="committeeMember.description" placeholder="Handles finances." class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-cons" value="Submit" ng-disabled="addCommitteeMemberForm.$invalid">                        
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+        <!-- MODAL STICK UP  -->
+        <div class="modal fade stick-up" id="editCommitteeMemberModal" tabindex="-1" role="dialog" aria-labelledby="editCommitteeMemberModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5">
+                            <span class="semi-bold">Edit</span> Committee Member</h4>
+                    </div>
+                    <form role="form" name="editCommitteeMemberForm" ng-submit="updateCommitteeMember()">
+                        <div class="modal-body">
+                            <p class="small-text">Edit a Committee Member using this form</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Member Name<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="committeeMember.memberName" class="form-control" placeholder="John Doe" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Contact No<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="committeeMember.contactNo" class="form-control" placeholder="9699128181" onkeypress="return event.charCode >=48 && event.charCode<=57">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>WhatsApp</label>
+                                        <input type="text" ng-model="committeeMember.whatsapp" class="form-control" placeholder="9699128181" onkeypress="return event.charCode >=48 && event.charCode<=57">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Email Id<span class="inline error">*</span></label>
+                                        <input type="text" ng-model="committeeMember.emailId" class="form-control" placeholder="johndoe@gmail.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Photo</label>
+                                        <input type="file" demo-file-model="file"  class="form-control" id ="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Position</label>
+                                        <input type="text" ng-model="committeeMember.position" class="form-control" placeholder="Treasurer" >
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div pg-form-group class="form-group form-group-default">
+                                        <label>Description</label>
+                                        <input type="text" ng-model="committeeMember.description" placeholder="Handles finances." class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-cons" value="Submit" ng-disabled="editCommitteeMemberForm.$invalid">
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END MODAL STICK UP  -->
+    </div>
+</div>
+<!-- END CONTAINER FLUID -->
