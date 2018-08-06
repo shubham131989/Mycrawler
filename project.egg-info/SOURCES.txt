@@ -1,0 +1,13 @@
+setup.py
+justdial2/__init__.py
+justdial2/items.py
+justdial2/middlewares.py
+justdial2/pipelines.py
+justdial2/settings.py
+justdial2/spiders/__init__.py
+justdial2/spiders/just_dial.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
